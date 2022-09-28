@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
-// omit other imports
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate
+} from "react-router-dom";
 import { selectAllPages, fetchPages, PageState, AppDispatch, selectPagesStatus, Page } from './store/store';
 import ResponsiveAppBar from './components/NavBar';
+import GeneratedPage from './components/GeneratedPage';
 
 import logo from './logo.svg';
 import './App.css';
@@ -17,7 +23,6 @@ function App() {
   (() => {
     const pagesCopy = Object.assign({}, pages);
     const pagesArray = Object.values(pagesCopy);
-    console.log('pages', pagesArray);
   })();
 
   useEffect(() => {
@@ -29,7 +34,15 @@ function App() {
 
   return (
     <div className="App">
-      {pages.length && <ResponsiveAppBar pages={pages} />}
+      {pages.length && (<BrowserRouter>
+        <ResponsiveAppBar pages={pages} />
+        <Routes>
+          {pages.map((page) => (
+            <Route key={page.routeName} path={page.routeName} element={<GeneratedPage component={page.components} />} />
+          ))}
+          <Route path="*" element={<Navigate to={pages[0].routeName} replace />} />
+        </Routes>
+      </BrowserRouter>)}
     </div>
   );
 }

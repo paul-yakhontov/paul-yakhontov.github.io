@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -21,20 +22,14 @@ type Props = {
 const ResponsiveAppBar: React.FC<Props> = ({ pages }) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   return (
@@ -89,7 +84,10 @@ const ResponsiveAppBar: React.FC<Props> = ({ pages }) => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.routeName} onClick={handleCloseNavMenu}>
+                <MenuItem key={page.routeName} onClick={() => {
+                  handleCloseNavMenu();
+                  navigate(page.routeName);
+                }}>
                   <Typography textAlign="center">{page.routeName}</Typography>
                 </MenuItem>
               ))}
@@ -117,7 +115,10 @@ const ResponsiveAppBar: React.FC<Props> = ({ pages }) => {
             {pages.map((page) => (
               <Button
                 key={page.routeName}
-                onClick={handleCloseNavMenu}
+                onClick={() => {
+                  handleCloseNavMenu();
+                  navigate(page.routeName);
+                }}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page.routeName}

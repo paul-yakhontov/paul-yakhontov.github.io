@@ -2,8 +2,20 @@ import { configureStore, ThunkAction, Action, createAsyncThunk, createSlice } fr
 import { getDatabase, ref, child, get } from 'firebase/database';
 import { firebaseInstanse } from '../firebase';
 
+export interface ComponentProps {
+  name: string;
+  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'button' | 'caption' | 'overline' | 'inherit';
+  color?: 'initial' | 'inherit' | 'primary' | 'secondary' | 'textPrimary' | 'textSecondary' | 'error';
+  align?: 'inherit' | 'left' | 'center' | 'right' | 'justify';
+  noWrap?: boolean;
+  paragraph?: boolean;
+  sx?: any;
+  display?: 'initial' | 'block' | 'inline';
+}
+
 export interface Page {
   routeName: string;
+  components: ComponentProps[] | undefined
 }
 
 export interface PageState {
