@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   BrowserRouter,
@@ -6,11 +6,10 @@ import {
   Route,
   Navigate
 } from "react-router-dom";
-import { selectAllPages, fetchPages, PageState, AppDispatch, selectPagesStatus, Page } from './store/store';
+import { selectAllPages, fetchPages, AppDispatch, selectPagesStatus, Page } from './store/store';
 import ResponsiveAppBar from './components/NavBar';
 import GeneratedPage from './components/GeneratedPage';
 
-import logo from './logo.svg';
 import './App.css';
 
 
@@ -18,12 +17,6 @@ function App() {
   const dispatch = useDispatch<AppDispatch>();
   const pages: Page[] = useSelector(selectAllPages);
   const pagesStatus = useSelector(selectPagesStatus);
-
-
-  (() => {
-    const pagesCopy = Object.assign({}, pages);
-    const pagesArray = Object.values(pagesCopy);
-  })();
 
   useEffect(() => {
     if (pagesStatus === 'idle') {
