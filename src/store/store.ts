@@ -1,16 +1,25 @@
 import { configureStore, ThunkAction, Action, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getDatabase, ref, child, get } from 'firebase/database';
 import { firebaseInstanse } from '../firebase';
+import SvgIconProps from '@mui/material/SvgIcon/SvgIcon';
 
 export interface ComponentProps {
   name: string;
   variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'button' | 'caption' | 'overline' | 'inherit';
-  color?: 'initial' | 'inherit' | 'primary' | 'secondary' | 'textPrimary' | 'textSecondary' | 'error';
+  color?: "primary" | "secondary" | "error" | "default" | "info" | "success" | "warning" | undefined;
   align?: 'inherit' | 'left' | 'center' | 'right' | 'justify';
+  textAlign?: 'left' | 'center' | 'right' | undefined;
   noWrap?: boolean;
-  paragraph?: boolean;
+  paragraph?: string;
   sx?: any;
   display?: 'initial' | 'block' | 'inline';
+  label?: string;
+  icon?: typeof SvgIconProps;
+  href?: string;
+  svg?: string;
+  component?: string;
+  components?: ComponentProps[];
+  orientation?: 'horizontal' | 'vertical';
 }
 
 export interface Page {
