@@ -1,1 +1,0 @@
-# paul-yakhontov.github.io
