@@ -49,7 +49,7 @@ const GeneratedPage: React.FC<Props> = ({ component }) => {
                     {component && component.map((component, index) => {
                         switch (component.name) {
                             case 'typography':
-                                return (<Typography key={index} variant={component.variant} gutterBottom >
+                                return (<Typography key={index} align={component.align} variant={component.variant} gutterBottom >
                                     {component.paragraph}
                                 </Typography>);
                             case 'divider':
