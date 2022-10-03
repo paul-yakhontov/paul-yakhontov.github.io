@@ -34,6 +34,8 @@ const GenerateStack: React.FC<Props> = ({ component }) => {
                         />);
                     case 'divider':
                         return (<Divider key={index} orientation={item.orientation} flexItem />);
+                    default:
+                        return null;
                 }
             })}
         </Stack>
@@ -62,7 +64,9 @@ const GeneratedPage: React.FC<Props> = ({ component }) => {
                             case 'stack':
                                 return (<GenerateStack key={index} component={component.components} />);
                             case 'listItem':
-                                return (<ListItem key={index}>{component.paragraph}</ListItem>)
+                                return (<ListItem key={index}>{component.paragraph}</ListItem>);
+                            default:
+                                return null;
                         }
                     })}
                 </Box>
