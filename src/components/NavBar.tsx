@@ -13,8 +13,6 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { Page } from '../store/store';
 
-// const pages = ['Products', 'Pricing', 'Blog'];
-
 type Props = {
   pages: Page[];
 };
