@@ -2,6 +2,7 @@ import { configureStore, ThunkAction, Action, createAsyncThunk, createSlice } fr
 import { getDatabase, ref, child, get } from 'firebase/database';
 import { firebaseInstanse } from '../firebase';
 import SvgIconProps from '@mui/material/SvgIcon/SvgIcon';
+import { ResponsiveStyleValue } from '@mui/system';
 
 export interface ComponentProps {
   name: string;
@@ -15,6 +16,7 @@ export interface ComponentProps {
   display?: 'initial' | 'block' | 'inline';
   label?: string;
   src?: string;
+  direction?: ResponsiveStyleValue<'row' | 'row-reverse' | 'column' | 'column-reverse'>;
   icon?: typeof SvgIconProps;
   href?: string;
   svg?: string;

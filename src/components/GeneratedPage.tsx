@@ -8,18 +8,23 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import ListItem from '@mui/material/ListItem';
 import Avatar from '@mui/material/Avatar';
+import { ResponsiveStyleValue } from '@mui/system';
 import { ComponentProps } from '../store/store';
 
 type Props = {
     component: ComponentProps[] | undefined;
+    direction?: ResponsiveStyleValue<'row' | 'row-reverse' | 'column' | 'column-reverse'>;
 }
 
-const GenerateStack: React.FC<Props> = ({ component }) => {
-    return (
-        <Stack direction="row" spacing={1} sx={{ padding: '1rem', justifyContent: 'space-around', marginBottom: '1rem' }} >
-            <GenerateComponents component={component} />
-        </Stack>
-    );
+const GenerateStack: React.FC<Props> = ({ component, direction }) => {
+    if (component) {
+        return (
+            <Stack direction={direction} spacing={1} sx={{ padding: '1rem', justifyContent: 'space-around', marginBottom: '1rem' }} >
+                <GenerateComponents component={component} />
+            </Stack>
+        )
+    }
+    return null;
 }
 
 const GenerateComponents: React.FC<Props> = ({ component }) => {
@@ -41,7 +46,7 @@ const GenerateComponents: React.FC<Props> = ({ component }) => {
                             {component.paragraph}
                         </Divider>);
                     case 'stack':
-                        return (<GenerateStack key={index} component={component.components} />);
+                        return (<GenerateStack direction={component.direction} key={index} component={component.components} />);
                     case 'listItem':
                         return (<ListItem sx={component.sx} key={index}>{component.paragraph}</ListItem>);
                     case 'chip':
