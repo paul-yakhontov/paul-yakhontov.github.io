@@ -10,8 +10,8 @@ import ListItem from '@mui/material/ListItem';
 import Avatar from '@mui/material/Avatar';
 import { ResponsiveStyleValue } from '@mui/system';
 import { ComponentProps } from '../store/store';
-import html2canvas from 'html2canvas';
-import Button from '@mui/material/Button';
+// import html2canvas from 'html2canvas';
+// import Button from '@mui/material/Button';
 
 type Props = {
     component: ComponentProps[] | undefined;
@@ -75,41 +75,39 @@ const GenerateComponents: React.FC<Props> = ({ component }) => {
 const GeneratedPage: React.FC<Props> = ({ component }) => {
     const printRef = React.useRef();
 
-    console.log(component);
+    // const handleDownloadImage = async () => {
+    //     if (printRef.current) {
+    //         const element: HTMLElement = printRef.current;
+    //         const canvas = await html2canvas(element, {
+    //             windowWidth: element.scrollWidth,
+    //             windowHeight: element.scrollHeight + window.innerHeight,
+    //         });
 
-    const handleDownloadImage = async () => {
-        if (printRef.current) {
-            const element: HTMLElement = printRef.current;
-            const canvas = await html2canvas(element, {
-                windowWidth: element.scrollWidth,
-                windowHeight: element.scrollHeight + window.innerHeight,
-            });
+    //         const data = canvas.toDataURL('image/jpg');
+    //         const link = document.createElement('a');
 
-            const data = canvas.toDataURL('image/jpg');
-            const link = document.createElement('a');
+    //         if (typeof link.download === 'string') {
+    //             link.href = data;
+    //             link.download = 'image.jpg';
 
-            if (typeof link.download === 'string') {
-                link.href = data;
-                link.download = 'image.jpg';
-
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            } else {
-                window.open(data);
-            }
-        }
-    };
+    //             document.body.appendChild(link);
+    //             link.click();
+    //             document.body.removeChild(link);
+    //         } else {
+    //             window.open(data);
+    //         }
+    //     }
+    // };
 
     return (
         <React.Fragment>
             <CssBaseline />
             <Container maxWidth="md">
-                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', mt: '2rem' }}>
+                {/* <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', mt: '2rem' }}>
                     <Button sx={{ alignSelf: 'flex-end', justifySelf: "end" }} variant="outlined" onClick={handleDownloadImage}>
                         Download as Image
                     </Button>
-                </Box>
+                </Box> */}
                 <Box ref={printRef} sx={{ height: '100vh', padding: '2vh' }}>
                     <GenerateComponents component={component} />
                 </Box>
