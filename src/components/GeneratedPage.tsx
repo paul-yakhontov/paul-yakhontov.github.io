@@ -75,6 +75,8 @@ const GenerateComponents: React.FC<Props> = ({ component }) => {
 const GeneratedPage: React.FC<Props> = ({ component }) => {
     const printRef = React.useRef();
 
+    console.log(component);
+
     const handleDownloadImage = async () => {
         if (printRef.current) {
             const element: HTMLElement = printRef.current;
@@ -103,11 +105,11 @@ const GeneratedPage: React.FC<Props> = ({ component }) => {
         <React.Fragment>
             <CssBaseline />
             <Container maxWidth="md">
-                {/* <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', mt: '2rem' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', mt: '2rem' }}>
                     <Button sx={{ alignSelf: 'flex-end', justifySelf: "end" }} variant="outlined" onClick={handleDownloadImage}>
                         Download as Image
                     </Button>
-                </Box> */}
+                </Box>
                 <Box ref={printRef} sx={{ height: '100vh', padding: '2vh' }}>
                     <GenerateComponents component={component} />
                 </Box>
