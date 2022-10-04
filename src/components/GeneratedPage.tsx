@@ -34,6 +34,10 @@ const GenerateStack: React.FC<Props> = ({ component }) => {
                         />);
                     case 'divider':
                         return (<Divider key={index} orientation={item.orientation} flexItem />);
+                    case 'typography':
+                        return (<Typography sx={item.sx} key={index} align={item.align} variant={item.variant} gutterBottom >
+                            {item.paragraph}
+                        </Typography>);
                     default:
                         return null;
                 }
@@ -47,11 +51,11 @@ const GeneratedPage: React.FC<Props> = ({ component }) => {
         <React.Fragment>
             <CssBaseline />
             <Container maxWidth="md">
-                <Box sx={{ height: '100vh' }}>
+                <Box sx={{ height: '100vh', paddingTop: '2vh' }}>
                     {component && component.map((component, index) => {
                         switch (component.name) {
                             case 'typography':
-                                return (<Typography key={index} align={component.align} variant={component.variant} gutterBottom >
+                                return (<Typography sx={component.sx} key={index} align={component.align} variant={component.variant} gutterBottom >
                                     {component.paragraph}
                                 </Typography>);
                             case 'divider':
