@@ -14,21 +14,18 @@ type Props = {
 }
 
 const GenerateStack: React.FC<Props> = ({ component }) => {
-    console.log('component', component);
     return (
         <Stack direction="row" spacing={1} sx={{ padding: '1rem', justifyContent: 'space-around', marginBottom: '1rem' }} >
-            {component?.map((item, index) => {
+            <GenerateComponents component={component} />
+            {/* {component?.map((item, index) => {
                 switch (item.name) {
                     case 'chip':
                         return (<Chip
                             key={index}
                             label={item.label}
-                            sx={{
-                                backgroundColor: 'transparent',
-                            }}
+                            sx={item.sx}
                             //component attribute left static based on opened issue with overload this component
                             component="a"
-                            // color={item.color}
                             href={item.href}
                             clickable
                         />);
@@ -41,10 +38,57 @@ const GenerateStack: React.FC<Props> = ({ component }) => {
                     default:
                         return null;
                 }
-            })}
+            })} */}
         </Stack>
     );
 }
+
+const GenerateComponents: React.FC<Props> = ({ component }) => {
+    return (
+        <React.Fragment>
+            {component && component.map((component, index) => {
+                switch (component.name) {
+                    case 'typography':
+                        return (<Typography sx={component.sx} key={index} align={component.align} variant={component.variant} gutterBottom >
+                            {component.paragraph}
+                        </Typography>);
+                    case 'divider':
+                        return (<Divider
+                            sx={component.sx}
+                            key={index}
+                            orientation={component.orientation}
+                            textAlign={component.textAlign}
+                            flexItem >
+                            {component.paragraph}
+                        </Divider>);
+                    // return (<Divider
+                    //     sx={{ color: 'primary.main', fontSize: '1.5rem', fontWeight: 700 }}
+                    //     key={index}
+                    //     textAlign={component.textAlign}>
+                    //     {component.paragraph}
+                    // </Divider>);
+                    case 'stack':
+                        return (<GenerateStack key={index} component={component.components} />);
+                    case 'listItem':
+                        return (<ListItem sx={component.sx} key={index}>{component.paragraph}</ListItem>);
+                    case 'chip':
+                        return (<Chip
+                            key={index}
+                            label={component.label}
+                            sx={component.sx}
+                            //component attribute left static based on opened issue with overload this component
+                            component="a"
+                            href={component.href}
+                            clickable
+                        />);
+                    default:
+                        return null;
+                }
+            })}
+        </React.Fragment>
+    );
+}
+
 
 const GeneratedPage: React.FC<Props> = ({ component }) => {
     return (
@@ -52,27 +96,7 @@ const GeneratedPage: React.FC<Props> = ({ component }) => {
             <CssBaseline />
             <Container maxWidth="md">
                 <Box sx={{ height: '100vh', paddingTop: '2vh' }}>
-                    {component && component.map((component, index) => {
-                        switch (component.name) {
-                            case 'typography':
-                                return (<Typography sx={component.sx} key={index} align={component.align} variant={component.variant} gutterBottom >
-                                    {component.paragraph}
-                                </Typography>);
-                            case 'divider':
-                                return (<Divider
-                                    sx={{ color: 'primary.main', fontSize: '1.5rem', fontWeight: 700 }}
-                                    key={index}
-                                    textAlign={component.textAlign}>
-                                    {component.paragraph}
-                                </Divider>);
-                            case 'stack':
-                                return (<GenerateStack key={index} component={component.components} />);
-                            case 'listItem':
-                                return (<ListItem key={index}>{component.paragraph}</ListItem>);
-                            default:
-                                return null;
-                        }
-                    })}
+                    <GenerateComponents component={component} />
                 </Box>
             </Container>
         </React.Fragment>
