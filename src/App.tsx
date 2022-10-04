@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  BrowserRouter,
+  HashRouter,
   Routes,
   Route,
   Navigate
@@ -27,7 +27,7 @@ function App() {
 
   return (
     <div className="App">
-      {pages.length && (<BrowserRouter>
+      {pages.length && (<HashRouter>
         <ResponsiveAppBar pages={pages} />
         <Routes>
           {pages.map((page) => (
@@ -35,7 +35,7 @@ function App() {
           ))}
           <Route path="*" element={<Navigate to={pages[0].routeName} replace />} />
         </Routes>
-      </BrowserRouter>)}
+      </HashRouter>)}
     </div>
   );
 }
