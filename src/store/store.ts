@@ -14,6 +14,7 @@ export interface ComponentProps {
   sx?: any;
   display?: 'initial' | 'block' | 'inline';
   label?: string;
+  src?: string;
   icon?: typeof SvgIconProps;
   href?: string;
   svg?: string;
