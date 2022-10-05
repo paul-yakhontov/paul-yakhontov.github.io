@@ -9,13 +9,13 @@ import Stack from '@mui/material/Stack';
 import ListItem from '@mui/material/ListItem';
 import Avatar from '@mui/material/Avatar';
 import { ResponsiveStyleValue } from '@mui/system';
+import { Waves } from './Waves';
 import { ComponentProps } from '../store/store';
-// import html2canvas from 'html2canvas';
-// import Button from '@mui/material/Button';
 
 type Props = {
     component: ComponentProps[] | undefined;
     direction?: ResponsiveStyleValue<'row' | 'row-reverse' | 'column' | 'column-reverse'>;
+    useWaves?: boolean;
 }
 
 const GenerateStack: React.FC<Props> = ({ component, direction }) => {
@@ -35,7 +35,7 @@ const GenerateComponents: React.FC<Props> = ({ component }) => {
             {component && component.map((component, index) => {
                 switch (component.name) {
                     case 'typography':
-                        return (<Typography sx={component.sx} key={index} align={component.align} variant={component.variant} gutterBottom >
+                        return (<Typography sx={[component.sx, { zIndex: 2 }]} key={index} align={component.align} variant={component.variant} gutterBottom >
                             {component.paragraph}
                         </Typography>);
                     case 'divider':
@@ -62,7 +62,7 @@ const GenerateComponents: React.FC<Props> = ({ component }) => {
                             clickable
                         />);
                     case 'avatar':
-                        return (<Avatar sx={component.sx} key={index} alt={component.name} src={component.src} />);
+                        return (<Avatar sx={[component.sx, { zIndex: 2 }]} key={index} alt={component.name} src={component.src} />);
                     default:
                         return null;
                 }
@@ -72,46 +72,27 @@ const GenerateComponents: React.FC<Props> = ({ component }) => {
 }
 
 
-const GeneratedPage: React.FC<Props> = ({ component }) => {
+const GeneratedPage: React.FC<Props> = ({ component, useWaves }) => {
     const printRef = React.useRef();
 
-    // const handleDownloadImage = async () => {
-    //     if (printRef.current) {
-    //         const element: HTMLElement = printRef.current;
-    //         const canvas = await html2canvas(element, {
-    //             windowWidth: element.scrollWidth,
-    //             windowHeight: element.scrollHeight + window.innerHeight,
-    //         });
-
-    //         const data = canvas.toDataURL('image/jpg');
-    //         const link = document.createElement('a');
-
-    //         if (typeof link.download === 'string') {
-    //             link.href = data;
-    //             link.download = 'image.jpg';
-
-    //             document.body.appendChild(link);
-    //             link.click();
-    //             document.body.removeChild(link);
-    //         } else {
-    //             window.open(data);
-    //         }
-    //     }
-    // };
+    const divStyle: React.CSSProperties = {
+        width: "100vw",
+        height: "100vh",
+        position: "relative",
+        backgroundColor: useWaves ? "#d0b0ff" : 'unset',
+    };
 
     return (
         <React.Fragment>
             <CssBaseline />
-            <Container maxWidth="md">
-                {/* <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', mt: '2rem' }}>
-                    <Button sx={{ alignSelf: 'flex-end', justifySelf: "end" }} variant="outlined" onClick={handleDownloadImage}>
-                        Download as Image
-                    </Button>
-                </Box> */}
-                <Box ref={printRef} sx={{ height: '100vh', padding: '2vh' }}>
-                    <GenerateComponents component={component} />
-                </Box>
-            </Container>
+            <div style={divStyle}>
+                {useWaves && <Waves />}
+                <Container maxWidth="md">
+                    <Box ref={printRef} sx={{ height: '100vh', zIndex: 2, padding: '2vh' }}>
+                        <GenerateComponents component={component} />
+                    </Box>
+                </Container>
+            </div>
         </React.Fragment>
     );
 }

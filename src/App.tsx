@@ -31,7 +31,7 @@ function App() {
         <ResponsiveAppBar pages={pages} />
         <Routes>
           {pages.map((page) => (
-            <Route key={page.routeName} path={page.routeName} element={<GeneratedPage component={page.components} />} />
+            <Route key={page.routeName} path={page.routeName} element={<GeneratedPage useWaves={page.useWaves} component={page.components} />} />
           ))}
           <Route path="*" element={<Navigate to={pages[0].routeName} replace />} />
         </Routes>
