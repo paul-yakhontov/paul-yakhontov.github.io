@@ -4,28 +4,28 @@ import Wave from "react-wavify";
 
 export const Waves = () => {
     const wavePos1: React.CSSProperties = {
-        position: "absolute",
+        position: "fixed",
         zIndex: 1,
         bottom: "40vh",
         width: "100%"
     };
 
     const wavePos2: React.CSSProperties = {
-        position: "absolute",
+        position: "fixed",
         zIndex: 1,
         bottom: "24vh",
         width: "100%"
     };
 
     const wavePos3: React.CSSProperties = {
-        position: "absolute",
+        position: "fixed",
         zIndex: 1,
         bottom: "10vh",
         width: "100%"
     };
 
     const wavePos4: React.CSSProperties = {
-        position: "absolute",
+        position: "fixed",
         zIndex: 1,
         bottom: "-6vh",
         width: "100%"

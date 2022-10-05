@@ -79,6 +79,7 @@ const GeneratedPage: React.FC<Props> = ({ component, useWaves }) => {
         width: "100vw",
         height: "100vh",
         position: "relative",
+        overflowY: 'scroll',
         backgroundColor: useWaves ? "#d0b0ff" : 'unset',
     };
 
