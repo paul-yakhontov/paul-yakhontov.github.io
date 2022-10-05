@@ -31,33 +31,6 @@ export const Waves = () => {
         width: "100%"
     };
 
-    const wavePos5: React.CSSProperties = {
-        position: "absolute",
-        zIndex: 1,
-        bottom: "50px",
-        width: "100%"
-    };
-
-    const wavePos6: React.CSSProperties = {
-        position: "absolute",
-        zIndex: 1,
-        bottom: "20px",
-        width: "100%"
-    };
-    const wavePos7: React.CSSProperties = {
-        position: "absolute",
-        zIndex: 1,
-        bottom: "10px",
-        width: "100%"
-    };
-
-    const wavePos8: React.CSSProperties = {
-        position: "absolute",
-        zIndex: 1,
-        bottom: "0px",
-        width: "100%"
-    };
-
     var pauseStatus = false;
 
     return (
