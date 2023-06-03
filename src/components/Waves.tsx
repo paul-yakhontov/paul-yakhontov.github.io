@@ -1,88 +1,81 @@
 import React from "react";
 import Wave from "react-wavify";
 
+const wavesContainer: React.CSSProperties = {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+}
+
+function generateGradientColors(num: number, baseColor: string): string[] {
+    const colors: string[] = [baseColor];
+
+    const hexToRGB = (hex: string): number[] =>
+        hex
+            .replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (_, r, g, b) => `#${r}${r}${g}${g}${b}${b}`)
+            .substring(1)
+            .match(/.{2}/g)!
+            .map((x) => parseInt(x, 16));
+
+    const RGBToHex = (r: number, g: number, b: number): string =>
+        `#${((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)}`;
+
+    const lightenColor = (color: string, percentage: number): string => {
+        const [r, g, b] = hexToRGB(color);
+        const newR = Math.round(r + ((255 - r) * percentage) / 100);
+        const newG = Math.round(g + ((255 - g) * percentage) / 100);
+        const newB = Math.round(b + ((255 - b) * percentage) / 100);
+        return RGBToHex(newR, newG, newB);
+    };
+
+    const percentageStep = 8;
+
+    for (let i = 1; i <= num; i++) {
+        const previousColor = colors[i - 1];
+        const nextColor = lightenColor(previousColor, percentageStep);
+        colors.push(nextColor);
+    }
+
+    return colors;
+}
+
 
 export const Waves = () => {
-    const wavePos1: React.CSSProperties = {
-        position: "fixed",
-        zIndex: 1,
-        bottom: "40vh",
-        width: "100%"
-    };
-
-    const wavePos2: React.CSSProperties = {
-        position: "fixed",
-        zIndex: 1,
-        bottom: "24vh",
-        width: "100%"
-    };
-
-    const wavePos3: React.CSSProperties = {
-        position: "fixed",
-        zIndex: 1,
-        bottom: "10vh",
-        width: "100%"
-    };
-
-    const wavePos4: React.CSSProperties = {
-        position: "fixed",
-        zIndex: 1,
-        bottom: "-6vh",
-        width: "100%"
-    };
+    const containerRef = React.useRef<HTMLDivElement | null>(null);
+    const [colors, setColors] = React.useState<string[] | null>(null);
 
     var pauseStatus = false;
 
+    React.useLayoutEffect(() => {
+        if (containerRef.current) {
+            setColors(generateGradientColors(containerRef.current.clientHeight / 120, '#883aff'));
+        }
+    }, []);
+
     return (
-        <div>
-            <div style={wavePos1}>
-                <Wave
-                    fill="#ac76ff"
-                    paused={pauseStatus}
-                    options={{
-                        height: 0,
-                        amplitude: 5,
-                        speed: 0.5,
-                        points: 4
-                    }}
-                />
-            </div>
-            <div style={wavePos2}>
-                <Wave
-                    fill="#a164ff"
-                    paused={pauseStatus}
-                    options={{
-                        height: 0,
-                        amplitude: 5,
-                        speed: 0.3,
-                        points: 5
-                    }}
-                />
-            </div>
-            <div style={wavePos3}>
-                <Wave
-                    fill="#9550ff"
-                    paused={pauseStatus}
-                    options={{
-                        height: 0,
-                        amplitude: 10,
-                        speed: 0.3,
-                        points: 3
-                    }}
-                />
-            </div>
-            <div style={wavePos4}>
-                <Wave
-                    fill="#883aff"
-                    paused={pauseStatus}
-                    options={{
-                        height: 0,
-                        amplitude: 10,
-                        speed: 0.3,
-                        points: 4
-                    }}
-                />
-            </div>
+        <div ref={containerRef} style={wavesContainer}>
+            {colors && colors.map((color, index) => (
+                <div
+                    key={color}
+                    style={{
+                        position: 'absolute',
+                        width: '100%',
+                        bottom: index * 100,
+                        overflow: 'visible'
+                    }}>
+                    <Wave
+                        fill={color}
+                        paused={pauseStatus}
+                        options={{
+                            height: 20,
+                            amplitude: 5,
+                            speed: 0.5,
+                            points: 4
+                        }}
+                    />
+                </div>
+            ))
+            }
         </div>
     )
 }
