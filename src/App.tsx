@@ -19,11 +19,26 @@ function App() {
   const pagesStatus = useSelector(selectPagesStatus);
 
   useEffect(() => {
+    document.title = 'Pavlo Yakhontov';
+
+    const metaTags = [
+      { name: 'description', content: 'Personal website' },
+      { property: 'og:title', content: 'Pavlo Yakhontov' },
+      { property: 'og:description', content: 'Personal website' },
+    ];
+
+    metaTags.forEach(metaTag => {
+      const element = document.createElement('meta');
+      Object.entries(metaTag).forEach(([key, value]) => {
+        element.setAttribute(key, value);
+      });
+      document.head.appendChild(element);
+    });
+
     if (pagesStatus === 'idle') {
       dispatch(fetchPages())
     }
-  }, [pagesStatus, dispatch])
-
+  }, [pagesStatus, dispatch]);
 
   return (
     <div className="App">
