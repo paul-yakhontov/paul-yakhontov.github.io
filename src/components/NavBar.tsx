@@ -124,7 +124,7 @@ const ResponsiveAppBar: React.FC<Props> = ({ pages }) => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Avatar alt="Pavlo Yakhontov" src="https://media-exp1.licdn.com/dms/image/D4D03AQHJvsIPpqBJPQ/profile-displayphoto-shrink_800_800/0/1664325334731?e=1669852800&v=beta&t=j0qJ3ZD6sJjN8E9WEmdWdzfpg66gc7sko8O71SRP4Zw" />
+            <Avatar alt="Pavlo Yakhontov" src="https://scontent.flwo4-2.fna.fbcdn.net/v/t39.30808-6/351120733_1061432974817403_6198486552604866785_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=DOPJfr3m6LkAX9L16hM&_nc_ht=scontent.flwo4-2.fna&oh=00_AfDEp8UxC7n_BoJgBo-fUD0FwrBgnqN18ggej-CjXrPtjw&oe=64802227" />
           </Box>
         </Toolbar>
       </Container>
