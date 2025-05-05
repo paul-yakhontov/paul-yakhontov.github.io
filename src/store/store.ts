@@ -24,6 +24,7 @@ export interface ComponentProps {
   component?: string;
   components?: ComponentProps[];
   orientation?: 'horizontal' | 'vertical';
+  alt?: string;     
 }
 
 export interface Page {
