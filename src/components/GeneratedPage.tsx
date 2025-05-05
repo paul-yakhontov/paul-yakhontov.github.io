@@ -8,104 +8,168 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import ListItem from '@mui/material/ListItem';
 import Avatar from '@mui/material/Avatar';
-import { ResponsiveStyleValue } from '@mui/system';
+import { ResponsiveStyleValue, SystemStyleObject } from '@mui/system';
 import { Waves } from './Waves';
 import { ComponentProps } from '../store/store';
+import {
+    containerSx,
+    aboutRowSx,
+    sectionSx,
+  } from './GeneratedPage.styles';
 
-type Props = {
-    component: ComponentProps[] | undefined;
-    direction?: ResponsiveStyleValue<'row' | 'row-reverse' | 'column' | 'column-reverse'>;
-    useWaves?: boolean;
+interface GenerateStackProps {
+  components: ComponentProps[];
+  direction?: ResponsiveStyleValue<
+    'row' | 'row-reverse' | 'column' | 'column-reverse'
+  >;
+  sx?: SystemStyleObject;
 }
 
-const GenerateStack: React.FC<Props> = ({ component, direction }) => {
-    if (component) {
-        return (
-            <Stack direction={direction} spacing={1} sx={{ padding: '1rem', justifyContent: 'space-around', marginBottom: '1rem' }} >
-                <GenerateComponents component={component} />
-            </Stack>
-        )
-    }
-    return null;
+const GenerateStack: React.FC<GenerateStackProps> = ({ components, direction,  sx = {} }) => {
+
+      return (
+        <Stack
+            direction={direction}
+            spacing={1}
+            sx={sx}
+        >
+            <GenerateComponents components={components} />
+        </Stack>
+)};
+interface GenerateComponentsProps {
+  components: ComponentProps[];
 }
 
-const GenerateComponents: React.FC<Props> = ({ component }) => {
-    return (
-        <React.Fragment>
-            {component && component.map((component, index) => {
-                switch (component.name) {
-                    case 'typography':
-                        return (<Typography sx={[component.sx, { zIndex: 2 }]} key={index} align={component.align} variant={component.variant} gutterBottom >
-                            {component.paragraph}
-                        </Typography>);
-                    case 'divider':
-                        return (<Divider
-                            sx={component.sx}
-                            key={index}
-                            orientation={component.orientation}
-                            textAlign={component.textAlign}
-                            flexItem >
-                            {component.paragraph}
-                        </Divider>);
-                    case 'stack':
-                        return (<GenerateStack direction={component.direction} key={index} component={component.components} />);
-                    case 'listItem':
-                        return (<ListItem sx={component.sx} key={index}>{component.paragraph}</ListItem>);
-                    case 'chip':
-                        return (<Chip
-                            key={index}
-                            label={component.label}
-                            sx={component.sx}
-                            //component attribute left static based on opened issue with overload this component
-                            component="a"
-                            href={component.href}
-                            clickable
-                        />);
-                    case 'avatar':
-                        return (<Avatar sx={[component.sx, { zIndex: 2 }]} key={index} alt={component.name} src={component.src} />);
-                    case 'image':
-                        return (
-                            <Box
-                                key={index}
-                                component="img"
-                                src={component.src}
-                                alt={component.alt || ''}
-                                sx={[component.sx, { display: 'block', width: '100%' }]}
-                            />
-                        );
-                    default:
-                        return null;
-                }
-            })}
-        </React.Fragment>
-    );
+const GenerateComponents: React.FC<GenerateComponentsProps> = ({ components }) => (
+  <>
+    {components.map((c, i) => {
+      switch (c.name) {
+        case 'typography':
+          return (
+            <Typography
+              key={i}
+              align={c.align}
+              variant={c.variant}
+              gutterBottom
+              sx={c.sx}
+            >
+              {c.paragraph}
+            </Typography>
+          );
+
+        case 'divider':
+          return (
+            <Divider
+              key={i}
+              sx={c.sx}
+              orientation={c.orientation}
+              textAlign={c.textAlign}
+              flexItem
+            >
+              {c.paragraph}
+            </Divider>
+          );
+
+        case 'stack':
+          return (
+            <GenerateStack
+              key={i}
+              direction={c.direction}
+              components={c.components!}
+              sx={c.sx}
+            />
+          );
+
+        case 'listItem':
+          return (
+            <ListItem key={i} sx={c.sx}>
+              {c.paragraph}
+            </ListItem>
+          );
+
+        case 'chip':
+          return (
+            <Chip
+              key={i}
+              label={c.label}
+              sx={c.sx}
+              component="a"
+              href={c.href}
+              clickable
+            />
+          );
+
+        case 'avatar':
+          return (
+            <Avatar
+              key={i}
+              alt={c.alt || ''}
+              src={c.src}
+              sx={c.sx}
+            />
+          );
+
+        case 'box':
+          return (
+            <Box key={i} sx={c.sx}>
+              <GenerateComponents components={c.components!} />
+            </Box>
+          );
+
+        case 'image':
+          return (
+            <Box
+              key={i}
+              component="img"
+              src={c.src}
+              alt={c.alt || ''}
+              sx={c.sx}
+            />
+          );
+
+        default:
+          return null;
+      }
+    })}
+  </>
+);
+
+interface GeneratedPageProps {
+  component?: ComponentProps[];
+  useWaves?: boolean;
 }
 
+const GeneratedPage: React.FC<GeneratedPageProps> = ({ component = [], useWaves }) => {
+  const first = component[0];
+  const rest = component.slice(1);
 
-const GeneratedPage: React.FC<Props> = ({ component, useWaves }) => {
-    const printRef = React.useRef();
+  const isAbout =
+    first?.name === 'stack' && typeof first.direction !== 'undefined';
 
-    const divStyle: React.CSSProperties = {
-        width: "100vw",
-        height: "100vh",
-        position: "relative",
-        overflowY: 'scroll',
-        backgroundColor: useWaves ? "#d0b0ff" : 'unset',
-    };
+  return (
+    <>
+      <CssBaseline />
+      {useWaves && <Waves />}
 
-    return (
-        <React.Fragment>
-            <CssBaseline />
-            <div style={divStyle}>
-                {useWaves && <Waves />}
-                <Container maxWidth="md">
-                    <Box ref={printRef} sx={{ height: '100vh', zIndex: 2, padding: '2vh' }}>
-                        <GenerateComponents component={component} />
-                    </Box>
-                </Container>
-            </div>
-        </React.Fragment>
-    );
-}
+      <Container maxWidth="md" sx={containerSx}>
+        {isAbout ? (
+          <>
+            <Box sx={aboutRowSx}>
+              <GenerateComponents components={[first!]} />
+            </Box>
+
+            <Box>
+              <GenerateComponents components={rest} />
+            </Box>
+          </>
+        ) : (
+        <Box sx={sectionSx}>
+            <GenerateComponents components={component} />
+          </Box>
+        )}
+      </Container>
+    </>
+  );
+};
 
 export default GeneratedPage;
