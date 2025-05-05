@@ -63,6 +63,16 @@ const GenerateComponents: React.FC<Props> = ({ component }) => {
                         />);
                     case 'avatar':
                         return (<Avatar sx={[component.sx, { zIndex: 2 }]} key={index} alt={component.name} src={component.src} />);
+                    case 'image':
+                        return (
+                            <Box
+                                key={index}
+                                component="img"
+                                src={component.src}
+                                alt={component.alt || ''}
+                                sx={[component.sx, { display: 'block', width: '100%' }]}
+                            />
+                        );
                     default:
                         return null;
                 }
