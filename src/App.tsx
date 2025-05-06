@@ -32,10 +32,10 @@ function App() {
   return (
     <>
       <Helmet>
-        <title>Pavlo Yakhontov</title>
-        <meta name="description" content="Personal website" />
-        <meta property="og:title" content="Pavlo Yakhontov" />
-        <meta property="og:description" content="Personal website" />
+        <title>Pavlo Yakhontov — Senior Software Engineer</title>
+        <meta property="og:title"       content="Pavlo Yakhontov — Senior Software Engineer" />
+        <meta property="og:description" content="Building cross-platform apps with React & React Native. Check out CV." />
+        <meta property="og:image"       content="https://paul-yakhontov.github.io/og-image.png" />
       </Helmet>
 
       <div className="App">
