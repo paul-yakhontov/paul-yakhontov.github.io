@@ -11,7 +11,6 @@ export interface ComponentProps {
   align?: 'inherit' | 'left' | 'center' | 'right' | 'justify';
   textAlign?: 'left' | 'center' | 'right' | undefined;
   noWrap?: boolean;
-  useWaves?: boolean;
   paragraph?: string;
   sx?: any;
   display?: 'initial' | 'block' | 'inline';
@@ -30,7 +29,6 @@ export interface ComponentProps {
 export interface Page {
   routeName: string;
   components: ComponentProps[] | undefined;
-  useWaves?: boolean;
 }
 
 export interface PageState {

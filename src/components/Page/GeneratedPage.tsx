@@ -9,13 +9,13 @@ import Stack from '@mui/material/Stack';
 import ListItem from '@mui/material/ListItem';
 import Avatar from '@mui/material/Avatar';
 import { ResponsiveStyleValue, SystemStyleObject } from '@mui/system';
-import { Waves } from './Waves';
-import { ComponentProps } from '../store/store';
+import { ComponentProps } from '@store/store';
 import {
     containerSx,
     aboutRowSx,
     sectionSx,
   } from './GeneratedPage.styles';
+  
 
 interface GenerateStackProps {
   components: ComponentProps[];
@@ -136,10 +136,9 @@ const GenerateComponents: React.FC<GenerateComponentsProps> = ({ components }) =
 
 interface GeneratedPageProps {
   component?: ComponentProps[];
-  useWaves?: boolean;
 }
 
-const GeneratedPage: React.FC<GeneratedPageProps> = ({ component = [], useWaves }) => {
+const GeneratedPage: React.FC<GeneratedPageProps> = ({ component = []}) => {
   const first = component[0];
   const rest = component.slice(1);
 
@@ -149,8 +148,6 @@ const GeneratedPage: React.FC<GeneratedPageProps> = ({ component = [], useWaves 
   return (
     <>
       <CssBaseline />
-      {useWaves && <Waves />}
-
       <Container maxWidth="md" sx={containerSx}>
         {isAbout ? (
           <>

@@ -1,17 +1,22 @@
 import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   HashRouter,
   Routes,
   Route,
   Navigate
-} from "react-router-dom";
-import { selectAllPages, fetchPages, AppDispatch, selectPagesStatus, Page } from './store/store';
-import ResponsiveAppBar from './components/NavBar';
-import GeneratedPage from './components/GeneratedPage';
-
+} from 'react-router-dom';
+import {
+  selectAllPages,
+  fetchPages,
+  AppDispatch,
+  selectPagesStatus,
+  Page
+} from 'store/store';
+import NavBar from 'components/Nav/NavBar';
+import GeneratedPage from 'components/Page/GeneratedPage';
 import './App.css';
-
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,39 +24,45 @@ function App() {
   const pagesStatus = useSelector(selectPagesStatus);
 
   useEffect(() => {
-    document.title = 'Pavlo Yakhontov';
-
-    const metaTags = [
-      { name: 'description', content: 'Personal website' },
-      { property: 'og:title', content: 'Pavlo Yakhontov' },
-      { property: 'og:description', content: 'Personal website' },
-    ];
-
-    metaTags.forEach(metaTag => {
-      const element = document.createElement('meta');
-      Object.entries(metaTag).forEach(([key, value]) => {
-        element.setAttribute(key, value);
-      });
-      document.head.appendChild(element);
-    });
-
     if (pagesStatus === 'idle') {
-      dispatch(fetchPages())
+      dispatch(fetchPages());
     }
   }, [pagesStatus, dispatch]);
 
   return (
-    <div className="App">
-      {pages.length && (<HashRouter>
-        <ResponsiveAppBar pages={pages} />
-        <Routes>
-          {pages.map((page) => (
-            <Route key={page.routeName} path={page.routeName} element={<GeneratedPage useWaves={page.useWaves} component={page.components} />} />
-          ))}
-          <Route path="*" element={<Navigate to={pages[0].routeName} replace />} />
-        </Routes>
-      </HashRouter>)}
-    </div>
+    <>
+      <Helmet>
+        <title>Pavlo Yakhontov</title>
+        <meta name="description" content="Personal website" />
+        <meta property="og:title" content="Pavlo Yakhontov" />
+        <meta property="og:description" content="Personal website" />
+      </Helmet>
+
+      <div className="App">
+        {pages.length > 0 && (
+          <HashRouter>
+            <NavBar pages={pages} />
+            <Routes>
+              {pages.map(page => (
+                <Route
+                  key={page.routeName}
+                  path={page.routeName}
+                  element={
+                    <GeneratedPage
+                      component={page.components}
+                    />
+                  }
+                />
+              ))}
+              <Route
+                path="*"
+                element={<Navigate to={pages[0].routeName} replace />}
+              />
+            </Routes>
+          </HashRouter>
+        )}
+      </div>
+    </>
   );
 }
 
